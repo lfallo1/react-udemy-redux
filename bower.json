@@ -1,0 +1,20 @@
+{
+  "name": "react-flux-udemy",
+  "description": "sample react app",
+  "main": "index.js",
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.7",
+    "foundation": "~5.5.3",
+    "jquery": "~3.1.0"
+  }
+}
