@@ -68,24 +68,37 @@ gulp.task('open', ['connect'], function() {
 //   .pipe(connect.reload());
 // });
 
-// Lets bring es6 to es5 with this.
-// Babel - converts ES6 code to ES5 - however it doesn't handle imports.
-// Browserify - crawls your code for dependencies and packages them up
-// into one file. can have plugins.
-// Babelify - a babel plugin for browserify, to make browserify
-// handle es6 including imports.
-//IMPORTANT - babelify react plugin (in .babelrc file) so browserify handles jsx files
+// Babel - converts ES6 code to ES5 - does NOT handle imports / dependencies
+// Browserify - packages dependencies into one file, in right order. can have plugins.
+// Babelify - a babel plugin for browserify, to make browserify handle es6 including imports & convert jsx
+//IMPORTANT babel note - babelify plugins are declared in .babelrc file --- includes an es6 and react plugin
 gulp.task('jsx', function(){
-  browserify({
-    entries : [config.paths.mainJsx],
-    extensions: ['.jsx', 'js'],
-    paths: ['./node_modules', './src/components', './src/api']
-  })
-  .transform(babelify)
-  .bundle()
-  .pipe(source('main.js'))
-  .pipe(gulp.dest(config.paths.public + '/js'))
-  .pipe(connect.reload());
+
+  gulp.task('jsx', function(){
+    var bundler = browserify({
+      entries : [config.paths.mainJsx],
+      extensions: ['.jsx', 'js'],
+      paths: ['./node_modules', './src/components', './src/api'],
+      transform : [babelify]
+    });
+
+    bundler.bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest(config.paths.public + '/js'))
+    .pipe(connect.reload());
+  });
+
+  //***** does the same thing ******
+  // browserify({
+  //   entries : [config.paths.mainJsx],
+  //   extensions: ['.jsx', 'js'],
+  //   paths: ['./node_modules', './src/components', './src/api']
+  // })
+  // .transform(babelify)
+  // .bundle()
+  // .pipe(source('main.js'))
+  // .pipe(gulp.dest(config.paths.public + '/js'))
+  // .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
