@@ -13,13 +13,17 @@ var SuperheroApp = React.createClass({
     }
   },
   handleClick : function(name, level){
-    var superheroes = SuperheroApi.getSuperheroes();
     SuperheroApi.addSuperhero(name, level);
     this.setState(SuperheroApi.getSuperheroes());
   },
-  selectSuperhero : function(superhero){
-    this.setState({'selectedSuperhero':SuperheroApi.getSuperheroes().filter(function(d){return d.id == superhero.id})[0]});
+
+  selectSuperhero : function(id){
+    var superhero = SuperheroApi.getSuperheroById(id);
+    if(superhero){
+        this.setState({'selectedSuperhero':superhero});
+    }
   },
+
   render : function(){
     return (
       <div className="container">

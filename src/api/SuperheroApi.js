@@ -371,13 +371,13 @@ var superheroes = [
   }
 ];
 
-var SuperheroApi = {
+var sortByProp = function(prop, order){
+  return function(a,b){
+    return a[prop] > b[prop] ? 1*order : a[prop] < b[prop] ? -1*order : 0;
+  }
+};
 
-  sortByProp : function(prop, order){
-    return function(a,b){
-      return a[prop] > b[prop] ? 1*order : a[prop] < b[prop] ? -1*order : 0;
-    }
-  },
+var SuperheroApi = {
 
   addSuperhero : function(name, level){
     var id = superheroes.sort(function(a,b){return a.id < b.id ? 1 : a.id > b.id ? -1 : 0})[0].id + 1;
@@ -386,11 +386,16 @@ var SuperheroApi = {
       name : name,
       level : level
     });
-    superheroes = superheroes.sort(this.sortByProp('name',1));
+    superheroes = superheroes.sort(sortByProp('name',1));
   },
 
   getSuperheroes : function(){
     return superheroes;
+  },
+
+  getSuperheroById : function(id){
+    var results = superheroes.filter(function(d){return d.id == id});
+    return results && results.length && results.length > 0 ? results[0] : null;
   },
 
   filterSuperheroes : function(searchText){

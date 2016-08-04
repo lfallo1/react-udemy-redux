@@ -3,7 +3,7 @@ var React = require('react');
 var Superhero = React.createClass({
 
       handleClick : function(){
-        this.props.handleSelectSuperhero(this.props.superhero);
+        this.props.handleSelectSuperhero(this.props.superhero.id);
       },
 
       render : function(){
