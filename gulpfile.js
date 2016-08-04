@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
+var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var connect = require('gulp-connect'); //Runs a local dev server
 var open = require('gulp-open'); //Open a URL in a web browser
@@ -38,17 +39,7 @@ gulp.task('open', ['connect'], function() {
         .pipe(open({ uri: config.devBaseUrl = ':' + config.port + '/'}));
 });
 
-/*
-* This also works
-
-// Lets bring es6 to es5 with this.
-// Babel - converts ES6 code to ES5 - however it doesn't handle imports.
-// Browserify - crawls your code for dependencies and packages them up
-// into one file. can have plugins.
-// Babelify - a babel plugin for browserify, to make browserify
-// handle es6 including imports.
-
-*/
+// ----- This also works placing a require instead of entries property ------
 // gulp.task('jsx', function(){
 //   browserify({
 //     debug:true,
@@ -63,6 +54,26 @@ gulp.task('open', ['connect'], function() {
 //   .pipe(connect.reload());
 // });
 
+//***using reactify instead of babel***
+// gulp.task('jsx', function(){
+//   browserify({
+//     entries : [config.paths.mainJsx],
+//     extensions: ['.jsx', 'js'],
+//     paths: ['./node_modules', './src/components', './src/api']
+//   })
+//   .transform(reactify)
+//   .bundle()
+//   .pipe(source('main.js'))
+//   .pipe(gulp.dest(config.paths.public + '/js'))
+//   .pipe(connect.reload());
+// });
+
+// Lets bring es6 to es5 with this.
+// Babel - converts ES6 code to ES5 - however it doesn't handle imports.
+// Browserify - crawls your code for dependencies and packages them up
+// into one file. can have plugins.
+// Babelify - a babel plugin for browserify, to make browserify
+// handle es6 including imports.
 //IMPORTANT - babelify react plugin (in .babelrc file) so browserify handles jsx files
 gulp.task('jsx', function(){
   browserify({
