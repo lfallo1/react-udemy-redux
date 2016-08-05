@@ -49,6 +49,7 @@ gulp.task('open', ['connect'], function() {
 //   .transform(babelify)
 //   .require("./src/main.jsx", { entry: true })
 //   .bundle()
+//   .on('error', console.error.bind(console))
 //   .pipe(source('main.js'))
 //   .pipe(gulp.dest(config.paths.public + '/js'))
 //   .pipe(connect.reload());
@@ -63,6 +64,7 @@ gulp.task('open', ['connect'], function() {
 //   })
 //   .transform(reactify)
 //   .bundle()
+//   .on('error', console.error.bind(console))
 //   .pipe(source('main.js'))
 //   .pipe(gulp.dest(config.paths.public + '/js'))
 //   .pipe(connect.reload());
@@ -83,6 +85,7 @@ gulp.task('jsx', function(){
     });
 
     bundler.bundle()
+    .on('error', console.error.bind(console))
     .pipe(source('main.js'))
     .pipe(gulp.dest(config.paths.public + '/js'))
     .pipe(connect.reload());
@@ -96,6 +99,7 @@ gulp.task('jsx', function(){
   // })
   // .transform(babelify)
   // .bundle()
+  // .on('error', console.error.bind(console))
   // .pipe(source('main.js'))
   // .pipe(gulp.dest(config.paths.public + '/js'))
   // .pipe(connect.reload());
