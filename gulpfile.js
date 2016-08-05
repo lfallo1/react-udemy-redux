@@ -33,10 +33,10 @@ var notify = function(error) {
   var message = 'In: ';
   var title = 'Error: ';
 
-  if(error.description) {
-    title += error.description;
-  } else if (error.message) {
-    title += error.message;
+  if (error.message) {
+    title += error.message.split(':')[1].split('(')[0];
+  } else {
+    title += ' description not available';
   }
 
   if(error.filename) {
@@ -48,7 +48,7 @@ var notify = function(error) {
     message += '\nOn Line: ' + error.loc.line;
   }
 
-  notifier.notify({title: title, message: message});
+  notifier.notify({title: title, message: message, time: 10000});
 };
 
 //Start a local development server

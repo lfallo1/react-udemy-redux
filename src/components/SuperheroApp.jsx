@@ -5,6 +5,7 @@ var SuperheroApi = require('../api/SuperheroApi');
 var SuperheroDetails = require('./SuperheroDetails');
 var SuperheroAddButton = require('./SuperheroAddButton');
 
+
 var SuperheroApp = React.createClass({
   getInitialState : function(){
     return {
@@ -12,7 +13,7 @@ var SuperheroApp = React.createClass({
       "superheroes" : SuperheroApi.getSuperheroes()
     }
   },
-  handleClick : function(name, level){
+  handleClick : function(name, level
     SuperheroApi.addSuperhero(name, level);
     this.setState(SuperheroApi.getSuperheroes());
   },
