@@ -6,6 +6,7 @@ var source = require('vinyl-source-stream');
 var connect = require('gulp-connect'); //Runs a local dev server
 var open = require('gulp-open'); //Open a URL in a web browser
 var concat = require('gulp-concat');
+var notifier = require('node-notifier');
 
 var port = process.env.PORT || 9005;
 
@@ -23,6 +24,32 @@ var config = {
         'entry':'public/index.html'
     }
 }
+
+//show a desktop message on build errors
+var notify = function(error) {
+
+  console.log(error);
+
+  var message = 'In: ';
+  var title = 'Error: ';
+
+  if(error.description) {
+    title += error.description;
+  } else if (error.message) {
+    title += error.message;
+  }
+
+  if(error.filename) {
+    var file = error.filename.split('/');
+    message += file[file.length-1];
+  }
+
+  if(error.loc && error.loc.line) {
+    message += '\nOn Line: ' + error.loc.line;
+  }
+
+  notifier.notify({title: title, message: message});
+};
 
 //Start a local development server
 gulp.task('connect', function() {
@@ -85,7 +112,7 @@ gulp.task('jsx', function(){
     });
 
     bundler.bundle()
-    .on('error', console.error.bind(console))
+    .on('error', notify)
     .pipe(source('main.js'))
     .pipe(gulp.dest(config.paths.public + '/js'))
     .pipe(connect.reload());
