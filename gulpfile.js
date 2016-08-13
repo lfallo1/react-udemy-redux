@@ -108,7 +108,7 @@ gulp.task('jsx', function(){
       entries : [config.paths.mainJsx],
       extensions: ['.jsx', 'js'],
       paths: ['./node_modules', './src/components', './src/api'],
-      transform : [babelify]
+      transform : [reactify]
     });
 
     bundler.bundle()
