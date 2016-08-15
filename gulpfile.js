@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
-var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var connect = require('gulp-connect'); //Runs a local dev server
 var open = require('gulp-open'); //Open a URL in a web browser
@@ -34,7 +33,7 @@ var notify = function(error) {
   var title = 'Error: ';
 
   if (error.message) {
-    title += error.message.split(':')[1].split('(')[0];
+    title += error.message;
   } else {
     title += ' description not available';
   }
@@ -66,37 +65,6 @@ gulp.task('open', ['connect'], function() {
         .pipe(open({ uri: config.devBaseUrl = ':' + config.port + '/'}));
 });
 
-// ----- This also works placing a require instead of entries property ------
-// gulp.task('jsx', function(){
-//   browserify({
-//     debug:true,
-//     extensions: ['.jsx', 'js'],
-//     paths: ['./node_modules', './src/components', './src/api']
-//   })
-//   .transform(babelify)
-//   .require("./src/main.jsx", { entry: true })
-//   .bundle()
-//   .on('error', console.error.bind(console))
-//   .pipe(source('main.js'))
-//   .pipe(gulp.dest(config.paths.public + '/js'))
-//   .pipe(connect.reload());
-// });
-
-//***using reactify instead of babel***
-// gulp.task('jsx', function(){
-//   browserify({
-//     entries : [config.paths.mainJsx],
-//     extensions: ['.jsx', 'js'],
-//     paths: ['./node_modules', './src/components', './src/api']
-//   })
-//   .transform(reactify)
-//   .bundle()
-//   .on('error', console.error.bind(console))
-//   .pipe(source('main.js'))
-//   .pipe(gulp.dest(config.paths.public + '/js'))
-//   .pipe(connect.reload());
-// });
-
 // Babel - converts ES6 code to ES5 - does NOT handle imports / dependencies
 // Browserify - packages dependencies into one file, in right order. can have plugins.
 // Babelify - a babel plugin for browserify, to make browserify handle es6 including imports & convert jsx
@@ -107,8 +75,9 @@ gulp.task('jsx', function(){
     var bundler = browserify({
       entries : [config.paths.mainJsx],
       extensions: ['.jsx', 'js'],
-      paths: ['./node_modules', './src/components', './src/api'],
-      transform : [reactify]
+      paths: ['./node_modules', './src',
+        './src/components'],
+      transform : [babelify]
     });
 
     bundler.bundle()
@@ -117,19 +86,6 @@ gulp.task('jsx', function(){
     .pipe(gulp.dest(config.paths.public + '/js'))
     .pipe(connect.reload());
   });
-
-  //***** does the same thing ******
-  // browserify({
-  //   entries : [config.paths.mainJsx],
-  //   extensions: ['.jsx', 'js'],
-  //   paths: ['./node_modules', './src/components', './src/api']
-  // })
-  // .transform(babelify)
-  // .bundle()
-  // .on('error', console.error.bind(console))
-  // .pipe(source('main.js'))
-  // .pipe(gulp.dest(config.paths.public + '/js'))
-  // .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
