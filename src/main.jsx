@@ -2,46 +2,50 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+
+var url = 'https://jsonplaceholder.typicode.com/posts';
+
+const initialState = {
+  fetching : false,
+  fetched : false,
+  posts : [],
+  error : null
+};
+
+const fetchingState = {
+  fetching : true,
+  fetched : false,
+  posts : [],
+  error : null
+};
+
+const fetchErrorState = {
+  fetching : false,
+  fetched : true,
+  posts : []
+};
 
 //handle dispatched events.
 //cycle through different types of actions and set the state accordingly
-const reducer = (state=0, action) =>{
+const reducer = (state=initialState, action) =>{
   switch (action.type) {
-    case 'INC':
-      console.log('incrementing by ' + action.payload);
-      return state + action.payload;
-    case 'DEC':
-      console.log('decrementing by ' + action.payload);
-      return state - action.payload;
-    case 'ERR':
-      throw new Error('Bad type: ' + action.type);
+    case 'FETCH_POSTS_START':
+      return fetchingState;
+    case 'FETCH_POSTS_ERROR':
+      return {... fetchErrorState, error : action.payload};
+    case 'RECEIVE_POSTS':
+      return {... state, fetching : false, fetched : true, posts : action.payload, error : null};
     default:
       return state;
   }
 };
 
-/*
-const logger = (store)=>(next)=>(action)=>{
-    console.log('Action triggered...', action);
-    if(action.type === 'DEC'){
-      action.payload *= 100;
-    }
-    next(action);
-};
-
-const error = (store)=>(next)=>(action)=>{
-    try{
-        next(action);
-    } catch(e){
-      console.log(e);
-    }
-};
-*/
-
-const middleware = applyMiddleware(logger());
+const middleware = applyMiddleware(logger(), thunk);
 
 //create a store with reducer
-const store = createStore(reducer, 0, middleware);
+const store = createStore(reducer, middleware);
 
 //listen for changes on store
 store.subscribe(()=>{
@@ -49,15 +53,19 @@ store.subscribe(()=>{
 });
 
 //dispatch an action - reducer will handle
-store.dispatch({
-  type: 'INC',
-  payload: 1
-});
-store.dispatch({
-  type: 'DEC',
-  payload: 1
-});
-store.dispatch({
-  type: 'ERR',
-  payload: -1
+store.dispatch((dispatch)=>{
+  dispatch({
+    type : 'FETCH_POSTS_START'
+  });
+  axios.get(url + 'sdfg').then((res)=>{
+    dispatch({
+      type : 'RECEIVE_POSTS',
+      payload : res.data
+    })
+  }).catch((err)=>{
+    dispatch({
+      type : 'FETCH_POSTS_ERROR',
+      payload : err
+    });
+  });
 });
