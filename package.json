@@ -25,6 +25,7 @@
     "react-dom": "^15.3.0",
     "reactify": "^1.1.1",
     "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   }

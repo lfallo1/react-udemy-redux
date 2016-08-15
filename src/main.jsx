@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import {applyMiddleware, createStore} from 'redux';
+import logger from 'redux-logger';
 
 //handle dispatched events.
 //cycle through different types of actions and set the state accordingly
@@ -19,6 +20,7 @@ const reducer = (state=0, action) =>{
   }
 };
 
+/*
 const logger = (store)=>(next)=>(action)=>{
     console.log('Action triggered...', action);
     if(action.type === 'DEC'){
@@ -34,8 +36,9 @@ const error = (store)=>(next)=>(action)=>{
       console.log(e);
     }
 };
+*/
 
-const middleware = applyMiddleware(logger, error);
+const middleware = applyMiddleware(logger());
 
 //create a store with reducer
 const store = createStore(reducer, 0, middleware);
