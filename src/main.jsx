@@ -48,9 +48,7 @@ const middleware = applyMiddleware(logger(), thunk);
 const store = createStore(reducer, middleware);
 
 //listen for changes on store
-store.subscribe(()=>{
-  console.log('store changed...', store.getState());
-});
+store.subscribe(()=>{});
 
 //dispatch an action - reducer will handle
 store.dispatch((dispatch)=>{
