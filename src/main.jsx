@@ -1,38 +1,62 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {createStore} from 'redux';
+import {combineReducers, createStore} from 'redux';
 
-//handle dispatched events.
-//cycle through different types of actions and set the state accordingly
-const reducer = (state=0, action) =>{
+const userReducer = (state={}, action)=> {
   switch (action.type) {
-    case 'INC':
-      console.log('incrementing by ' + action.payload);
-      return state + action.payload;
+    case 'USER_CHANGE_USERNAME':
+        state = {...state, name: action.payload};
+        return state;
       break;
-    case 'DEC':
-    console.log('decrementing by ' + action.payload);
-      return state - action.payload;
+    case 'USER_CHANGE_AGE':
+        state = {...state, age: action.payload};
+        return state;
       break;
-    default:
-      return state;
   }
+
+  return state;
 };
 
-//create a store with reducer
-const store = createStore(reducer, 0);
+const postReducer = (state=[], action)=> {
+  switch (action.type) {
+    case 'POST_NEW':
+      return Object.assign({}, state, {
+        posts : [
+          ...state,
+          action.payload
+        ]
+      });
+      break;
+  }
 
-//listen for changes on store
+  return state;
+};
+
+const reducers = combineReducers({
+  user: userReducer,
+  posts: postReducer
+});
+
+const store = createStore(reducers);
+
 store.subscribe(()=>{
-  console.log('store changed...', store.getState());
+  console.log('Store changed...', store.getState());
 });
 
-//dispatch an action - reducer will handle
 store.dispatch({
-  type: 'INC',
-  payload: 1
+  type : 'POST_NEW',
+  payload : {
+    title : 'Post one title',
+    body : 'This is the body of the post'
+  }
 });
+
 store.dispatch({
-  type: 'DEC',
-  payload: 1
+  type : 'USER_CHANGE_USERNAME',
+  payload : 'lfallo1'
+});
+
+store.dispatch({
+  type : 'USER_CHANGE_AGE',
+  payload : 30
 });
