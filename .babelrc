@@ -1,6 +1,9 @@
 { "presets": [
   {
     "plugins": [
+        "react-html-attrs",
+        "add-module-exports",
+        "transform-decorators-legacy",
         "transform-class-properties"
     ]
   }, "es2015", "stage-0", "react"]

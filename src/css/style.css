@@ -1,3 +1,16 @@
-body{
-  
+.todo{
+  font-size: 24px;
+  font-weight: bolder;
+  padding: 8px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  color: white;
+}
+
+.todo-pending{
+  background: rgb(240,180,94);
+}
+
+.todo-completed{
+  background: #337ab7;
 }
