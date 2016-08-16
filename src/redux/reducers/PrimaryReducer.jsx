@@ -1,8 +1,6 @@
 import {combineReducers} from 'redux';
-import Todos from 'TodosReducer';
-import User from 'UserReducer';
+import WeatherReducer from 'WeatherReducer';
 
 export default combineReducers({
-  TodoStore : Todos,
-  UserStore : User
+  WeatherStore : WeatherReducer
 });
