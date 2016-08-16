@@ -15,7 +15,7 @@ export default (state=initialState, action)=> {
       return {...state, fetching : true};
     case 'USER_FETCH_ERROR':
       return {...state, fetching : false, error : action.payload}
-    case 'USER_FETCH_COMPLETED':
+    case 'USER_FETCH_FULFILLED':
       return {...state, fetching : false, fetched : true, user : action.payload, error : null}
   }
 

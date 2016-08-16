@@ -1,6 +1,17 @@
 import React from 'react';
+import store from 'Store';
+import {connect} from 'react-redux';
+import TodoActions from 'TodoActions';
 
-export default class Todo extends React.Component{
+class Todo extends React.Component{
+
+  deleteTodo = () => {
+    this.props.dispatch(TodoActions.DeleteTodo(this.props.index));
+  };
+
+  toggleComplete = () =>{
+    this.props.dispatch(TodoActions.ToggleCompleted(this.props.index));
+  };
 
   render(){
     var checkmark, todoClass = '';
@@ -16,8 +27,12 @@ export default class Todo extends React.Component{
       <div className={todoClass}>
         {this.props.todo.name}
         &nbsp;{checkmark}
+        <button className="btn btn-danger btn-sm" onClick={this.deleteTodo}>Delete</button>
+        <button className="btn btn-success btn-sm" onClick={this.toggleComplete}>Toggle</button>
       </div>
     );
   };
 
 };
+
+export default connect((store)=>{return{}})(Todo);

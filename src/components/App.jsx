@@ -9,16 +9,16 @@ class VideoApp extends React.Component{
 
   componentWillMount(){
     this.props.dispatch(UserActions.FetchUser());
-    this.props.dispatch(TodoActions.FetchTodos())
+    this.props.dispatch(TodoActions.FetchTodos());
   };
 
   render(){
-    const {user} = this.props;
+    const {user, todos} = this.props;
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2">
-            <Todos name={user.name} todos={this.props.todos} />
+            <Todos name={user.name} todos={todos} />
           </div>
         </div>
       </div>
@@ -29,6 +29,6 @@ class VideoApp extends React.Component{
 export default connect((store) => {
   return {
     user: store.User.user,
-    todos: store.Todos
+    todos: store.Todos.todos
   }
 })(VideoApp);

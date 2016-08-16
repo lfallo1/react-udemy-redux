@@ -2,7 +2,7 @@ export default {
 
   FetchUser : function(){
     return {
-      type: 'USER_FETCH_COMPLETED',
+      type: 'USER_FETCH_FULFILLED',
       payload : {
         name : 'John',
         age : 31
