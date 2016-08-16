@@ -1,5 +1,9 @@
-const initialState = {};
+const initialState = [];
 
-const todoReducer = (state={}, action)=> {
+export default (state=initialState, action)=> {
+  switch (action.type) {
+    case 'TODOS_FETCH_COMPLETED':
+      return action.payload;
+  }
   return state;
 };

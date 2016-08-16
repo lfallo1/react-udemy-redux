@@ -1,11 +1,15 @@
-export function FetchUser(){
-  return {
-    type: 'USER_FETCH_COMPLETED',
-    payload : {
-      name : 'John',
-      age : 31
+export default {
+
+  FetchUser : function(){
+    return {
+      type: 'USER_FETCH_COMPLETED',
+      payload : {
+        name : 'John',
+        age : 31
+      }
     }
   }
+
 };
 //
 //   return {...state, fetching : true};
