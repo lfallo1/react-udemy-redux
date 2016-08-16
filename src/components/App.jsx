@@ -28,7 +28,7 @@ class VideoApp extends React.Component{
 
 export default connect((store) => {
   return {
-    user: store.User.user,
-    todos: store.Todos.todos
+    user: store.UserStore.user,
+    todos: store.TodoStore.todos
   }
 })(VideoApp);
