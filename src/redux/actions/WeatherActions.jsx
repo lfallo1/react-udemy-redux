@@ -1,35 +1,24 @@
 export default {
-  FetchTodos : function(){
+  FetchWeatherStart : function(){
     return {
-      type: 'TODOS_FETCH_FULFILLED',
-      payload : [
-        {id:1, name:'Buy food', completed:false},
-        {id:2,name:'Meet for lunch', completed: false},
-        {id:3,name:'Eat a cake', completed: true}
-      ]
+      type: 'WEATHER_FETCH_START'
     }
   },
-  AddTodo : function(name){
+  FetchWeatherFulfilled : function(weather){
     return {
-      type: 'TODOS_ADD',
-      payload : {name: name, completed:false}
+      type: 'WEATHER_FETCH_FULFILLED',
+      payload : weather
     }
   },
-  ToggleCompleted : function(idx){
+  FetchWeatherError : function(error){
     return {
-      type: 'TODO_TOGGLE_COMPLETED',
-      payload : idx
+      type: 'WEATHER_FETCH_ERROR',
+      payload : error
     }
   },
-  DeleteTodo : function(idx){
+  ClearWeather : function(){
     return {
-      type : 'TODOS_DELETE',
-      payload : idx
+      type : 'CLEAR_WEATHER'
     }
   }
 };
-//
-//   return {...state, fetching : true};
-// case 'USER_FETCH_ERROR':
-//   return {...state, fetching : false, error : action.payload}
-// case 'USER_FETCH_COMPLETED':

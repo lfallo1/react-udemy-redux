@@ -76,7 +76,7 @@ gulp.task('jsx', function(){
       entries : [config.paths.mainJsx],
       extensions: ['.jsx', 'js'],
       paths: ['./node_modules', './src',
-        './src/components', './src/redux/reducers', './src/redux/stores', './src/redux/actions'],
+        './src/components', './src/redux/reducers', './src/redux/stores', './src/redux/actions', './src/constants'],
       transform : [babelify]
     });
 

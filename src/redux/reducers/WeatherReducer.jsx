@@ -1,8 +1,3 @@
-const key = 'da189b2d63010329';
-const generateUrl = function(city, state){
-  return `http://api.wunderground.com/api/${key}/conditions/q/${state}/${city}.json`;
-}
-
 const initialState = {
     weather : {},
     fetching : false,
@@ -11,17 +6,18 @@ const initialState = {
 };
 
 export default (state=initialState, action)=> {
-  let idx = -1;
   switch (action.type) {
-    case 'WEATHER_FETCH':
+    case 'WEATHER_FETCH_START':
       return {...state, fetching : true, fetched : false, error : null};
 
     case 'WEATHER_FETCH_FULFILLED':
       return {...state, fetching : false, fetched : true, error : null, weather : action.payload};
 
     case 'WEATHER_FETCH_ERROR':
-      return {...state, error : action.payload}
+      return {...state, fetching : false, fetched : false, weather : {}, error : action.payload}
       break;
+    case 'CLEAR_WEATHER':
+      return initialState;
   }
   return state;
 };
